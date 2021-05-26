@@ -11,8 +11,9 @@ import javax.swing.JOptionPane;
 
 public class GameBoard extends JFrame {
 	JFrame myFrame;
-	int port;
-	String nickname;
+	
+	static int port = 0;
+	static String nickname = "";
 	
 	GameBoard(){
 		// 프레임 생성
@@ -63,7 +64,7 @@ public class GameBoard extends JFrame {
 			myPointer = MouseInfo.getPointerInfo();
 			x = myPointer.getLocation().x;
 			y = myPointer.getLocation().y;
-			System.out.println( "x: " + x + ", y: " + y ); // Debug
+			//System.out.println( "x: " + x + ", y: " + y ); // Debug
 			
 			// Set direction
 			
@@ -73,29 +74,34 @@ public class GameBoard extends JFrame {
 			
 			// Update each snake
 			
+			System.out.println( "port: " + port + ", name: [" + nickname + "] [" + nickname.length() + "]");
 		}
-		
 	}
 
 	class ButtonClickListener implements ActionListener {
-		public void host() {
-			JOptionPane hPop =new JOptionPane();
-			hPop.showMessageDialog( null, "port number" );
-			
+		public void nicknamePop() {
+			String s = JOptionPane.showInputDialog( "nickname" );
+			nickname = nickname.concat( s );
 		}
-		public void client() {
-			JOptionPane hPop =new JOptionPane();
-			hPop.showMessageDialog( null, "port number" );
+		public void hostPop() {
+			String portS = JOptionPane.showInputDialog("port number" );
+			port = Integer.parseInt(portS);
+			nicknamePop();
+		}
+		public void clientPop() {
+			String portS = JOptionPane.showInputDialog("port number" );
+			port = Integer.parseInt(portS);
+			nicknamePop();
 		}
 		
 		public void actionPerformed(ActionEvent e) {
 			String s = e.getActionCommand();
 			
-			if (s.equals("host") ) {
-				host();
+			if ( s.equals("as a host") ) {
+				hostPop();
 			}
-			else if ( s.equals( "client" ) ) {
-				client();
+			else if ( s.equals( "as a client" ) ) {
+				clientPop();
 			}
 		}
 	}
