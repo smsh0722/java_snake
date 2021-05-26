@@ -2,6 +2,8 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,9 +14,14 @@ import javax.swing.JOptionPane;
 public class GameBoard extends JFrame {
 	JFrame myFrame;
 	
+	public int mode = 0; // 0 = none, 1 == hosting, 2 == client
+	
 	static int port = 0;
 	static String nickname = "";
 	
+	public HashMap<Integer, Snake> map = new HashMap<>();
+	
+	// Basic GUI
 	GameBoard(){
 		// 프레임 생성
 		myFrame = new JFrame( "Snake" );
@@ -49,49 +56,49 @@ public class GameBoard extends JFrame {
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public static void main ( String args[] ) {
-		// 화면 띄우기
-		GameBoard myGameBoard = new GameBoard();
-		
-		// new snake
-		
+	// Each Snake display itself
+	public void game( Snake snake ) {
 		PointerInfo myPointer = MouseInfo.getPointerInfo();
 		int x, y;
-		while(true) {
-			// Display snakes
+		// Display snakes
 			
-			// Mouse Position
-			myPointer = MouseInfo.getPointerInfo();
-			x = myPointer.getLocation().x;
-			y = myPointer.getLocation().y;
-			//System.out.println( "x: " + x + ", y: " + y ); // Debug
+		// Mouse Position
+		myPointer = MouseInfo.getPointerInfo();
+		x = myPointer.getLocation().x;
+		y = myPointer.getLocation().y;
+		System.out.println( "Mouse>> x: " + x + ", y: " + y ); // Debug
 			
-			// Set direction
+		// Set direction
 			
-			// Output direction
+		// Output direction
 			
-			// Input direction
+		// Input direction
 			
-			// Update each snake
-			
-			System.out.println( "port: " + port + ", name: [" + nickname + "] [" + nickname.length() + "]");
-		}
+		// Update each snake
 	}
-
+	
+	// Menu Interaction
 	class ButtonClickListener implements ActionListener {
 		public void nicknamePop() {
 			String s = JOptionPane.showInputDialog( "nickname" );
-			nickname = nickname.concat( s );
+			if ( s != null ) nickname = nickname.concat( s );
+			else mode = 0;
 		}
 		public void hostPop() {
 			String portS = JOptionPane.showInputDialog("port number" );
-			port = Integer.parseInt(portS);
-			nicknamePop();
+			if ( portS != null ) {
+				port = Integer.parseInt(portS);
+				mode = 1;
+				nicknamePop();
+			}
 		}
 		public void clientPop() {
 			String portS = JOptionPane.showInputDialog("port number" );
-			port = Integer.parseInt(portS);
-			nicknamePop();
+			if ( portS != null ) {
+				port = Integer.parseInt(portS);
+				mode = 2;
+				nicknamePop();
+			}
 		}
 		
 		public void actionPerformed(ActionEvent e) {
