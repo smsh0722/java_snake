@@ -87,7 +87,7 @@ public class GameBoard extends JFrame{
 		y = myPointer.getLocation().y;
 		System.out.println( "Mouse>> x: " + x + ", y: " + y ); // Debug
 		
-		snake.move( x,  y, 0, 0);
+		snake.move( x, y );
 		// Set direction
 			
 		// Output direction

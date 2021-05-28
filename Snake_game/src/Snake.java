@@ -9,6 +9,7 @@ public class Snake {
 	public boolean isAlive = true;
 	double previousX;
 	double previousY;
+	int bodylen;
 	
 	Snake(double x, double y) {
 		snakeLocationList = new ArrayList<>();
@@ -18,28 +19,38 @@ public class Snake {
 		for ( int i = 0; i < 10; i ++ ) {
 			snakeLocationList.add(new SnakeLocationPoint(headPoint.x+i, headPoint.y));
 		}
-
+		bodylen = 11;
 	}
 	
-
-	public void move(double mouseX, double mouseY, double feedX, double feedY) {
+	public void move(double mouseX, double mouseY ) {
 		headPoint = snakeLocationList.get(0);
 		
 		double angle = Math.atan2(mouseY-headPoint.y, mouseX-headPoint.x);
-        double nextX = headPoint.x + Math.cos(angle ) * 1.5;//마우스 방향의 새로운 좌표
-        double nextY = headPoint.y + Math.sin(angle ) * 1.5;
+        double nextX = headPoint.x + Math.cos(angle) * 1.5;//마우스 방향의 새로운 좌표
+        double nextY = headPoint.y + Math.sin(angle) * 1.5;
         
-        int len = snakeLocationList.size(); //마지막 리스트의 좌표
-        
+		int listlen = snakeLocationList.size();
+		previousX = snakeLocationList.get(listlen).x;
+		previousY = snakeLocationList.get(listlen).y;
+		
         headPoint = new SnakeLocationPoint(nextX, nextY);
         snakeLocationList.add(0, headPoint);
-        snakeLocationList.remove(len);
-		
+        
+        if ( bodylen <= listlen ) snakeLocationList.remove(listlen);
+        /*
+		for(int i = 0; i < feed.feedLocationList.size(); i++) {
+			double len = Math.pow(feed.feedLocationList.get(i).x - nextX, 2) + Math.pow(feed.feedLocationList.get(i).y - nextY, 2);
+			if(len < 1) {
+				bodylen += 2;
+				feed.feedLocationList.remove(i);
+			}
+		}
+		*/
 		// test
-		for ( int i = 0; i < len; i++ ) System.out.println( snakeLocationList.get(i).x + ", " + snakeLocationList.get(i).y );
+		for ( int i = 0; i < listlen; i++ ) System.out.println( snakeLocationList.get(i).x + ", " + snakeLocationList.get(i).y );
 	}
 	
-	public void Collision(Snake snake1, Snake snake2, double feedX, double feedY) {
+	public void Collision(Snake snake1, Snake snake2, Feed feed) {
 		double nx = headPoint.x;
 		double ny = headPoint.y;
 		
@@ -48,13 +59,16 @@ public class Snake {
 			//1보다 작으면 겹침
 			double len = Math.pow(snake1.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake1.snakeLocationList.get(i).y - ny, 2);
 			if(len < 1) {
+				feed.MakeFeedPlus(nx, ny);
 				isAlive = false;
+				
 			}
 		}
 		for(int i = 0; i < snake2.snakeLocationList.size(); i++) {
 			//1보다 작으면 겹침
 			double len = Math.pow(snake2.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake2.snakeLocationList.get(i).y - ny, 2);
 			if(len < 1) {
+				feed.MakeFeedPlus(nx, ny);
 				isAlive = false;
 			}
 		}
@@ -63,6 +77,7 @@ public class Snake {
 			//1보다 작으면 겹침
 			double len = Math.pow(snakeLocationList.get(i).x - nx, 2) + Math.pow(snakeLocationList.get(i).y - ny, 2);
 			if(len < 1) {
+				feed.MakeFeedPlus(nx, ny);
 				isAlive = false;
 			}
 		}
@@ -74,9 +89,14 @@ public class Snake {
 			isAlive = false;
 		}
 		//먹이 발견 -> 몸통 추가
-		if(nx == feedX && ny == feedY) {
-			snakeLocationList.add(new SnakeLocationPoint(previousX, previousY));
+		/*for(int i = 0; i < feed.feedLocationList.size(); i++) {
+			double len = Math.pow(feed.feedLocationList.get(i).x - nx, 2) + Math.pow(feed.feedLocationList.get(i).y - ny, 2);
+			if(len < 1) {
+				snakeLocationList.add(new SnakeLocationPoint(previousX, previousY));
+				feed.feedLocationList.remove(i);
+			}
 		}
+		*/
 	}
 	
 	
@@ -107,5 +127,3 @@ public class Snake {
 	}
 
 }
-
-
