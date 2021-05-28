@@ -1,58 +1,92 @@
 import java.util.ArrayList;
+
+
+
 public class Snake {
-	SnakeLocationPoint headPoint;
-
-	ArrayList<SnakeLocationPoint> snakeLocationList;
 	
- 
-		
+	SnakeLocationPoint headPoint;
+	ArrayList<SnakeLocationPoint> snakeLocationList;
+	public boolean isAlive = true;
+	double previousX;
+	double previousY;
+	
 
-		Snake(double x, double y){
-			headPoint = new SnakeLocationPoint(x,y);
+		Snake(double x, double y) {
+			headPoint = new SnakeLocationPoint(x,y); //입력받은 위치를 시작위치로 몸길이 설정
 
 			snakeLocationList.add(headPoint);
 			snakeLocationList.add(new SnakeLocationPoint(headPoint.x+1, headPoint.y));
 			snakeLocationList.add(new SnakeLocationPoint(headPoint.x+2, headPoint.y));
 			snakeLocationList.add(new SnakeLocationPoint(headPoint.x+3, headPoint.y));
 		}
+		
 
-		public boolean moveWhenClicked(double mouseX, double mouseY) {
+		public void move(double mouseX, double mouseY, double feedX, double feedY) {
+			
 			double angle = Math.atan2(mouseY-headPoint.y, mouseX-headPoint.x);
-			int len = snakeLocationList.length();
-			double nextX = 1; //마우스 방향의 새로운 좌표
-			double nextY = 1;
-			double previousX = headPoint.x + len - 1; // 마지막 몸통 위치 저장
-			double previousY = headPoint.y + len - 1;
+			double nextX = Math.cos(Math.toRadians(angle)) * 1;//마우스 방향의 새로운 좌표
+			double nextY = Math.sin(Math.toRadians(angle)) * 1;
 			
+			previousX = headPoint.x;
+			previousY = headPoint.y;
+			int len = snakeLocationList.size();
 			
-			headPoint = new SnakeLocationPoint(?, ?);
+			headPoint = new SnakeLocationPoint(nextX, nextY);
+			snakeLocationList.set(0, headPoint);
 			
-			
-			// 대충 마우스 포인터에 맞는 위치로 변경
-			
-			for(int i = 0; i < snakeLocationList.length(); i++ ) {
+			//한칸씩 이동
+			for(int i = 1; i < len; i++) {
+				double temp1 = snakeLocationList.get(i).x;
+				double temp2 = snakeLocationList.get(i).y;
+				snakeLocationList.set(i, new SnakeLocationPoint(previousX, previousY));
+				previousX = temp1;
+				previousY = temp2;
+				//먹이위치가 같으면  몸통 길이 증가
 				
 			}
-			if(nextX == feedX && nextY == feedY) {
-				snakeLocationList.add(new SnakeLocationPoint(headPoint.x+1, headPoint.y));
+
+		}
+		
+		public void Collision(Snake snake1, Snake snake2, double feedX, double feedY) {
+			double nx = headPoint.x;
+			double ny = headPoint.y;
+			
+			//다른 지렁이에 부딪힘
+			for(int i = 0; i < snake1.snakeLocationList.size(); i++) {
+				//1보다 작으면 겹침
+				double len = Math.pow(snake1.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake1.snakeLocationList.get(i).y - ny, 2);
+				if(len < 1) {
+					isAlive = false;
+				}
 			}
-			//먹이위치가 같으면  몸통 길이 증가
-			
-			
-
-
-
-			return true;
+			for(int i = 0; i < snake2.snakeLocationList.size(); i++) {
+				//1보다 작으면 겹침
+				double len = Math.pow(snake2.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake2.snakeLocationList.get(i).y - ny, 2);
+				if(len < 1) {
+					isAlive = false;
+				}
+			}
+			//자기 몸통에 부딪히면 죽음(head인 경우는 제자리이므로 제외)
+			for(int i = 1; i < snakeLocationList.size(); i++) {
+				//1보다 작으면 겹침
+				double len = Math.pow(snakeLocationList.get(i).x - nx, 2) + Math.pow(snakeLocationList.get(i).y - ny, 2);
+				if(len < 1) {
+					isAlive = false;
+				}
+			}
+			//board 나가면 죽음
+			if(nx < 0 || nx > 700) {
+				isAlive = false;
+			}
+			else if(ny < 0 || ny > 500) {
+				isAlive = false;
+			}
+			//먹이 발견 -> 몸통 추가
+			if(nx == feedX && ny == feedY) {
+				snakeLocationList.add(new SnakeLocationPoint(previousX, previousY));
+			}
 		}
-
-		public boolean isAlive() {
-			//다른 지렁이와 부딪히면 머리끼리 부딪히면 무효
-			//다른 지렁이 몸통에 부딪히면 아웃
-			//세마리를 인수로 받아서 비교?
-			//벽에 부딪히면 아웃
-			//자기 몸통에 부딪혀도 아웃
-			return true;
-		}
+		
 		
 		public class SnakeLocationPoint {
 		    double x;
@@ -81,3 +115,5 @@ public class Snake {
 		}
 
 }
+
+
