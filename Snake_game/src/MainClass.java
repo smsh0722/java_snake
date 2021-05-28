@@ -11,8 +11,6 @@ import javax.swing.JOptionPane;
 
 public class MainClass {
 	public static void main(String[] args) {
-		GameBoard myGame = new GameBoard();
-		int myNum = 0;
 		
 		// Hosting
 		/* if ( myC.mode == 1 ){
@@ -29,6 +27,8 @@ public class MainClass {
 		new Thread( myC ).start();
 		*/
 		
+		GameBoard myGame = new GameBoard();
+
 		// my Snake Thread
 		GameTask myST = new GameTask( myGame );
 		new Thread( myST ).start();
