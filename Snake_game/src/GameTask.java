@@ -4,28 +4,22 @@ public class GameTask implements Runnable {
 	int num;
 	Snake snake;
 	
-	GameTask( GameBoard myGame, int num ){
+	GameTask( GameBoard myGame ){
 		this.myGame = myGame;
-		
-		this.num = num;
-		
-		// 랜덤 위치 생성
-		snake = new Snake( 200 + Math.random() * 200, Math.random() * 200 + 200);
-		
-		// 스네이크 해쉬에 넣기
-		myGame.snakes.put( num, snake );
 	}
 			
 	public void run() {
-		while ( snake.isAlive ) {
+		while ( myGame.mySnake.isAlive ) {
 			try {
 				Thread.sleep( 17 ); // ~= 60fps
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			myGame.game( snake );
+			myGame.Control();
 		}
-		myGame.snakes.remove( num );
+		myGame.snakes.remove( myGame.nickname );
+		// 서버에 죽었음을 전송
+		// 닉네임 전송
 	}
 }

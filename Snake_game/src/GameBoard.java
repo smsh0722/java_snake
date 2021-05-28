@@ -9,6 +9,7 @@ import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -26,17 +27,25 @@ public class GameBoard extends JFrame{
 	// 통신 용
 	public int mode = 0; // 0 = none, 1 == hosting, 2 == client
 	static int port = 0;
-	// 유저 이름
-	static String nickname = "";
+	int IP;
+	
+	// 고유 정보
+	static String nickname = "defualt"; // 닉네임
+	Snake mySnake;				// 나의 스네이크
 	
 	// 스네이크 맵
-	public HashMap<Integer, Snake> snakes = new HashMap<>();
+	public HashMap<String, Snake> snakes = new HashMap<>();
 	
+	// Paint 용
 	Image buffImg;
 	Graphics buffG;
+
 	
-	// Basic GUI
+	// Game GUI
 	public GameBoard(){
+		mySnake = new Snake( 100 + Math.random() * 400, Math.random() * 100 + 400);
+		snakes.put( nickname, mySnake );
+		
 		setTitle("Snake");
 		setSize( JFrame.MAXIMIZED_HORIZ, JFrame.MAXIMIZED_VERT);
 		setExtendedState( JFrame.MAXIMIZED_BOTH );
@@ -58,28 +67,29 @@ public class GameBoard extends JFrame{
 	public void update( Graphics g ) {
 		buffG.clearRect( 0, 0, 700, 500 ); // 백지화
 		
-		drawSnake(g); 
+		drawSnake(g); // snake 그리기
+		// drawFeeds(g); // 먹이 그리기
 		
 		g.drawImage( buffImg, 0, 0, this ); // 화면에 버퍼(buffG)에 그려진 이미지(buffImg)를 그림
 	}
+	
 	public void drawSnake( Graphics g ) {
-		// buffG.drawString("HellO", x, y);
-		
-		g.setColor( Color.red );
-		Snake snake = snakes.get(0);
-		for ( Integer i = 0; i < snakes.get(0).snakeLocationList.size(); i++ ) {
-			double x = snake.snakeLocationList.get(i).x;
-			double y = snake.snakeLocationList.get(i).y;
-			
-			buffG.setColor( Color.red );
-			buffG.fillOval( (int)x, (int)y, 12, 12);
+		Set<String> keys = snakes.keySet();
+		for ( String key : keys ) {
+			Snake snake = snakes.get(key);
+			for ( Integer i = 0; i < snake.snakeLocationList.size(); i++ ) {
+				double x = snake.snakeLocationList.get(i).x;
+				double y = snake.snakeLocationList.get(i).y;
+				
+				buffG.setColor( Color.red );
+				buffG.fillOval( (int)x, (int)y, 12, 12);
+			}
 		}
 	}
 	
-	// Each Snake display itself
-	public void game( Snake snake ) {
+	// Mouse Control
+	public void Control( ) {
 		PointerInfo myPointer = MouseInfo.getPointerInfo();
-		// Display snakes
 			
 		// Mouse Position
 		myPointer = MouseInfo.getPointerInfo();
@@ -87,16 +97,13 @@ public class GameBoard extends JFrame{
 		y = myPointer.getLocation().y;
 		System.out.println( "Mouse>> x: " + x + ", y: " + y ); // Debug
 		
-		snake.move( x, y );
-		// Set direction
-			
-		// Output direction
-			
-		// Input direction
-			
-		// Update each snake
+		this.mySnake.move( x, y );
+		
+		// 서버에 x, y 전송
+		
 	}
 	
+	// 호스트, 클라이언트 선택 및 서버 열기.... 서버 담당자와 논의 필요
 	public void Starting() {
 		JFrame f = new JFrame();
 		f.setTitle("Snake");
@@ -133,41 +140,41 @@ public class GameBoard extends JFrame{
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	// Menu Interaction
-		class ButtonClickListener implements ActionListener {
-			public void nicknamePop() {
-				String s = JOptionPane.showInputDialog( "nickname" );
-				if ( s != null ) {
-					nickname = nickname.concat( s );
-				}
-				
-			}
-			public void hostPop() {
-				String portS = JOptionPane.showInputDialog("port number" );
-				if ( portS != null ) {
-					port = Integer.parseInt(portS);
-					mode = 1;
-					nicknamePop();
-				}
-			}
-			public void clientPop() {
-				String portS = JOptionPane.showInputDialog("port number" );
-				if ( portS != null ) {
-					port = Integer.parseInt(portS);
-					mode = 2;
-					nicknamePop();
-				}
-			}
-			
-			public void actionPerformed(ActionEvent e) {
-				String s = e.getActionCommand();
-				
-				if ( s.equals("as a host") ) {
-					hostPop();
-				}
-				else if ( s.equals( "as a client" ) ) {
-					clientPop();
-				}
+	class ButtonClickListener implements ActionListener {
+		public void nicknamePop() {
+			String s = JOptionPane.showInputDialog( "nickname" );
+			if ( s != null ) {
+				nickname = nickname.concat( s );
+				notifyAll();
 			}
 		}
+		public void hostPop() {
+			String portS = JOptionPane.showInputDialog("port number" );
+			if ( portS != null ) {
+				port = Integer.parseInt(portS);
+				mode = 1;
+				nicknamePop();
+			}
+		}
+		public void clientPop() {
+			String portS = JOptionPane.showInputDialog("port number" );
+			if ( portS != null ) {
+				port = Integer.parseInt(portS);
+				mode = 2;
+				nicknamePop();
+			}
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			String s = e.getActionCommand();
+			
+			if ( s.equals("as a host") ) {
+				hostPop();
+			}
+			else if ( s.equals( "as a client" ) ) {
+				clientPop();
+			}
+		}
+	}
 	
 }
