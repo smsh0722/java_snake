@@ -34,7 +34,9 @@ public class GameBoard extends JFrame{
 	Snake mySnake;				// 나의 스네이크
 	
 	// 스네이크 맵
-	public HashMap<String, Snake> snakes = new HashMap<>();
+	public HashMap<String, Snake> snakes = new HashMap<>(); // 닉네임으로 구별
+	
+	// 먹이 맵
 	
 	// Paint 용
 	Image buffImg;
@@ -43,9 +45,6 @@ public class GameBoard extends JFrame{
 	
 	// Game GUI
 	public GameBoard(){
-		mySnake = new Snake( 100 + Math.random() * 400, Math.random() * 100 + 400);
-		snakes.put( nickname, mySnake );
-		
 		setTitle("Snake");
 		setSize( JFrame.MAXIMIZED_HORIZ, JFrame.MAXIMIZED_VERT);
 		setExtendedState( JFrame.MAXIMIZED_BOTH );
@@ -53,13 +52,17 @@ public class GameBoard extends JFrame{
 		setVisible(true);
 		setBackground( Color.lightGray );
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		// 랜덤 위치에서 시작, 참고) 접속할 때 서버에서 랜덤으로 시작위치 주는 것으로 변경 필요
+		mySnake = new Snake( 100 + Math.random() * 400, Math.random() * 100 + 400);
+		snakes.put( nickname, mySnake ); // 맵에 추가
 	}
 	
 	// Painting
 	public void paint( Graphics g ) {
 		repaint();
 		
-		buffImg = createImage( getWidth(), getHeight() ); // 도화지
+		buffImg = createImage( getWidth(), getHeight() ); // 도화지 생성
 		buffG = buffImg.getGraphics(); // 그래픽용 객체 얻기
 		
 		update(g);
@@ -81,7 +84,7 @@ public class GameBoard extends JFrame{
 				double x = snake.snakeLocationList.get(i).x;
 				double y = snake.snakeLocationList.get(i).y;
 				
-				buffG.setColor( Color.red );
+				buffG.setColor( Color.red ); // 나중에 고유 색깔로 변경 필요
 				buffG.fillOval( (int)x, (int)y, 12, 12);
 			}
 		}
@@ -89,14 +92,14 @@ public class GameBoard extends JFrame{
 	
 	// Mouse Control
 	public void Control( ) {
-		PointerInfo myPointer = MouseInfo.getPointerInfo();
-			
 		// Mouse Position
+		PointerInfo myPointer = MouseInfo.getPointerInfo();
 		myPointer = MouseInfo.getPointerInfo();
 		x = myPointer.getLocation().x;
 		y = myPointer.getLocation().y;
 		System.out.println( "Mouse>> x: " + x + ", y: " + y ); // Debug
 		
+		// 나의 스네이크 이동
 		this.mySnake.move( x, y );
 		
 		// 서버에 x, y 전송

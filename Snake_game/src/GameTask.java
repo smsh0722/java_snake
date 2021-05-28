@@ -18,8 +18,10 @@ public class GameTask implements Runnable {
 			}
 			myGame.Control();
 		}
-		myGame.snakes.remove( myGame.nickname );
-		// 서버에 죽었음을 전송
-		// 닉네임 전송
+		myGame.snakes.remove( myGame.nickname ); // 자신의 해쉬맵에서 자신 제거
+		/* 서버에 죽었음을 닉네임과 함께 전송
+		 * 모든 유저에 뿌리기
+		 * 각 유저마다 자신의 해쉬맵에서 해당 스네이크 제거
+		 */
 	}
 }

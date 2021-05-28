@@ -19,7 +19,7 @@ public class Snake {
 		for ( int i = 0; i < 10; i ++ ) {
 			snakeLocationList.add(new SnakeLocationPoint(headPoint.x+i, headPoint.y));
 		}
-		bodylen = 11;
+		bodylen = 11; // 기본 11 로 시작
 	}
 	
 	public void move(double mouseX, double mouseY/*, Feed feed */) {
