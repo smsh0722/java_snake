@@ -22,7 +22,7 @@ public class Snake {
 		bodylen = 11;
 	}
 	
-	public void move(double mouseX, double mouseY ) {
+	public void move(double mouseX, double mouseY/*, Feed feed */) {
 		headPoint = snakeLocationList.get(0);
 		
 		double angle = Math.atan2(mouseY-headPoint.y, mouseX-headPoint.x);
@@ -30,8 +30,6 @@ public class Snake {
         double nextY = headPoint.y + Math.sin(angle) * 1.5;
         
 		int listlen = snakeLocationList.size();
-		previousX = snakeLocationList.get(listlen).x;
-		previousY = snakeLocationList.get(listlen).y;
 		
         headPoint = new SnakeLocationPoint(nextX, nextY);
         snakeLocationList.add(0, headPoint);
@@ -47,7 +45,7 @@ public class Snake {
 		}
 		*/
 		// test
-		for ( int i = 0; i < listlen; i++ ) System.out.println( snakeLocationList.get(i).x + ", " + snakeLocationList.get(i).y );
+		// for ( int i = 0; i < listlen; i++ ) System.out.println( snakeLocationList.get(i).x + ", " + snakeLocationList.get(i).y );
 	}
 	
 	public void Collision(Snake snake1, Snake snake2, Feed feed) {
