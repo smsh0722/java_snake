@@ -26,8 +26,8 @@ public class Snake {
 		headPoint = snakeLocationList.get(0);
 		
 		double angle = Math.atan2(mouseY-headPoint.y, mouseX-headPoint.x);
-        double nextX = headPoint.x + Math.cos(angle) * 1;//마우스 방향의 새로운 좌표
-        double nextY = headPoint.y + Math.sin(angle) * 1;
+        double nextX = headPoint.x + Math.cos(angle ) * 1.5;//마우스 방향의 새로운 좌표
+        double nextY = headPoint.y + Math.sin(angle ) * 1.5;
         
         int len = snakeLocationList.size(); //마지막 리스트의 좌표
         

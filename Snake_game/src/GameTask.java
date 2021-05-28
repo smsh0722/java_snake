@@ -19,7 +19,7 @@ public class GameTask implements Runnable {
 	public void run() {
 		while ( snake.isAlive ) {
 			try {
-				Thread.sleep( 17 );
+				Thread.sleep( 17 ); // ~= 60fps
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
