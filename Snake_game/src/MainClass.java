@@ -13,24 +13,21 @@ public class MainClass {
 	public static void main(String[] args) {
 		
 		// Hosting
-		/* if ( myC.mode == 1 ){
-		 *
-		 * 		new Thread( ht ).start()
-		 * }
-		*/
+		/* 
+		 */
 		
 		// Client
 		/*
-		Client myC = new Client(myGame);
-		new Thread( myC ).start();
-		myNum = myC.getUserNum();
-		new Thread( myC ).start();
-		*/
+		 */
 		
 		GameBoard myGame = new GameBoard();
 
-		// my Snake Thread
+		// Control Thread
+		// 참고) 나의 것은 직접 컨트롤
 		GameTask myST = new GameTask( myGame );
 		new Thread( myST ).start();
+		
+		// 참고) 다른 사람 것은 서버에서 x,y 받아와 해쉬맵에서 찾아내 move 시킴
+		
 	}
 }
