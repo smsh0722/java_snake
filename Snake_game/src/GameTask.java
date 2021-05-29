@@ -11,7 +11,8 @@ public class GameTask implements Runnable {
 	public void run() {
 		while ( myGame.mySnake.isAlive ) {
 			try {
-				Thread.sleep( 17 ); // ~= 60fps
+				Thread.sleep( 16 ); // 16ms >> 60fps
+				// boost를 원한다면 17보다 작게
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
