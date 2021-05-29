@@ -10,10 +10,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class MainClass {
-	String nickname = "" ;
-	String IP = ""; // client의 경우 host IP 필요
-	int port; // port 번호
-	int mode; // 1 == host, 2 == client
+	String nickname = "" ;	// 나의 닉네임, 스네이크, 통신 등에서 구별할 때 사용
+	String IP = ""; 		// client의 경우 host IP 필요
+	int port; 				// port 번호
+	int mode; 				// 1 == host, 2 == client
 	
 	public MainClass(){
 		
@@ -28,7 +28,7 @@ public class MainClass {
 	}
 
 	public void gameStart() {
-		GameBoard myGame = new GameBoard(); 
+		GameBoard myGame = new GameBoard(); // 게임 화면 열기
 		
 		// Debug
 		System.out.println( "nickname: " + nickname );
