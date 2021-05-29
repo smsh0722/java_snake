@@ -31,7 +31,7 @@ public class GameBoard extends JFrame{
 	// 통신 용
 	public int mode = 0; // 0 = none, 1 == hosting, 2 == client
 	static int port = 0;
-	int IP;
+	String IP;
 	
 	// 고유 정보
 	static String nickname = "defualt"; // 닉네임

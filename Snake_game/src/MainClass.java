@@ -9,6 +9,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+
 public class MainClass {
 	String nickname = "" ;	// 나의 닉네임, 스네이크, 통신 등에서 구별할 때 사용
 	String IP = ""; 		// client의 경우 host IP 필요
@@ -37,10 +40,15 @@ public class MainClass {
 		System.out.println( "mode: " + mode );
 		
 		// Hosting
+		if(mode==1) {
+			ServerSocket serverSocket = new ServerSocket(port);
+			IP = "localhost";
+		}
 		/* 
 		 */
 		
-		// Client
+		myGame.nickname = nickname;		myGame.IP = IP;
+		myGame.port = port;		myGame.mode = mode;
 		/*
 		 */
 
@@ -48,6 +56,17 @@ public class MainClass {
 		// 참고) 나의 것은 직접 컨트롤
 		GameTask myST = new GameTask( myGame );
 		new Thread( myST ).start();
+
+		// Client
+		// 다른 유저 입장 기다리기
+		if(mode==1) {
+			int userNum = 0;
+			while(true) {
+				Socket connect = serverSocket.accept();
+				new Thread( new Client( myGame, connect, userNum++ ) ).start();
+				System.out.println( "new User connected." );
+			}
+		}
 		
 		// 참고) 다른 사람 것은 서버에서 x,y 받아와 해쉬맵에서 찾아내 move 시킴
 	}

@@ -1,15 +1,49 @@
 import java.util.ArrayList;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Client implements Runnable{
 	int userNum;
 	GameBoard myGame;
+	String nickname;
+	int x; int y;
 	
-	Client( GameBoard myGame ){
+	Socket socket;
+	DataInputStream in;
+	DataOutputStream out;
+	
+	Client( GameBoard myGame, Socket socket, int userNum ){
 		this.myGame = myGame;
+		this.socket = socket; // = serverSocket.accept()
+		this.userNum = userNum;
 	}
 	
 	public void run(){
-		
+		try {
+			BufferedInputStream bis = new BufferedInputStream (socket.getInputStream());
+			in = new DataInputStream(bis);
+			BufferedOutputStream bos = new BufferedOutputStream (socket.getOutputStream());
+			out = new DataOutputStream(bos);
+			
+			//이니셜라이징
+			nickname = in.readLine();
+			x= in.readDouble();
+			y= in.readDouble();
+			//서버의 별도 어레이에 저장하고
+			//모든 뱀들의 닉네임+x+y를 계속 뿌려줘야 할까? 무슨 타입으로...? 
+			
+			while ( myGame.mySnake.isAlive ) {
+				//
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// 입장하고 서버에서 랜덤 스폰 x, y 받기, 내 스네이크 생성: mySnake = new snake( x, y ), 내 맵에 추가: snakes.put( nickname, mySnake );
