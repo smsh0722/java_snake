@@ -10,7 +10,31 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class MainClass {
+	String nickname = "" ;
+	String IP = ""; // client의 경우 host IP 필요
+	int port; // port 번호
+	int mode; // 1 == host, 2 == client
+	
+	public MainClass(){
+		
+	}
+	
 	public static void main(String[] args) {
+		MainClass mMain = new MainClass();
+		
+		// 기본 정보 받기 위한 화면, 기본 정보를 받게되면 gameStart() 실행됨.
+		StartPage SP = new StartPage(mMain);
+		
+	}
+
+	public void gameStart() {
+		GameBoard myGame = new GameBoard(); 
+		
+		// Debug
+		System.out.println( "nickname: " + nickname );
+		System.out.println( "IP: " + IP );
+		System.out.println( "port: " + port );
+		System.out.println( "mode: " + mode );
 		
 		// Hosting
 		/* 
@@ -19,8 +43,6 @@ public class MainClass {
 		// Client
 		/*
 		 */
-		
-		GameBoard myGame = new GameBoard();
 
 		// Control Thread
 		// 참고) 나의 것은 직접 컨트롤
@@ -28,6 +50,5 @@ public class MainClass {
 		new Thread( myST ).start();
 		
 		// 참고) 다른 사람 것은 서버에서 x,y 받아와 해쉬맵에서 찾아내 move 시킴
-		
 	}
 }

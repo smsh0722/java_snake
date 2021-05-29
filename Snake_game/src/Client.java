@@ -3,26 +3,13 @@ import java.util.ArrayList;
 public class Client implements Runnable{
 	int userNum;
 	GameBoard myGame;
-	ArrayList<Integer> userList;
 	
 	Client( GameBoard myGame ){
 		this.myGame = myGame;
 	}
 	
-	public void run() {
-
-	}
-	
-	public int getUserNum() {
-		return userNum;
-	}
-	
-	public boolean isEnter() {
-		return false;
-	}
-	
-	public int newUser() {
-		return 0;
+	public void run(){
+		
 	}
 	
 	// 입장하고 서버에서 랜덤 스폰 x, y 받기, 내 스네이크 생성: mySnake = new snake( x, y ), 내 맵에 추가: snakes.put( nickname, mySnake );
