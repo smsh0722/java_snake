@@ -10,16 +10,15 @@ public class Client implements Runnable{
 	int userNum;
 	GameBoard myGame;
 	String nickname;
-	int x; int y;
+	double x; double y;
 	
 	Socket socket;
 	DataInputStream in;
 	DataOutputStream out;
 	
-	Client( GameBoard myGame, Socket socket, int userNum ){
+	Client( GameBoard myGame, Socket socket ){
 		this.myGame = myGame;
 		this.socket = socket; // = serverSocket.accept()
-		this.userNum = userNum;
 	}
 	
 	public void run(){
@@ -30,16 +29,40 @@ public class Client implements Runnable{
 			out = new DataOutputStream(bos);
 			
 			//이니셜라이징
-			nickname = in.readLine();
-			x= in.readDouble();
-			y= in.readDouble();
+			
 			//서버의 별도 어레이에 저장하고
 			//모든 뱀들의 닉네임+x+y를 계속 뿌려줘야 할까? 무슨 타입으로...? 
 			
-			while ( myGame.mySnake.isAlive ) {
+			do {
 				//
-				
-			}
+				System.out.println("Client waiting to read: "); //debug
+				String inputLine = in.readUTF();
+				System.out.println("Client reads: " + inputLine); //debug
+				String[] input = inputLine.split("/");
+				switch(input[0]) {
+				case "enter":
+					//초기 랜덤위치 생성해 전달
+					nickname = input[1];
+					input[2] = Double.toString(100 + Math.random() * 400);
+					input[3] = Double.toString(Math.random() * 100 + 400);
+					inputLine = String.join("/", input); //그지같은 코드 죄송합니다..
+					break;
+				case "updtPos":
+					break;
+				case "dead":
+					break;
+				default:
+					throw new IOException("unknown input command");
+				}
+				//다른 모든 클라에 해당 내용 전송
+				userNum = 0;
+				for(Socket clnt: MainClass.connectList) {
+					BufferedOutputStream tmpBos = new BufferedOutputStream (clnt.getOutputStream());
+					out = new DataOutputStream(tmpBos);
+					out.writeUTF(inputLine);
+					System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine); //debug
+				}
+			}while ( myGame.mySnake.isAlive );
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

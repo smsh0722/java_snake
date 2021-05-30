@@ -35,7 +35,7 @@ public class GameBoard extends JFrame{
 	
 	// 고유 정보
 	static String nickname = "defualt"; // 닉네임
-	Snake mySnake;				// 나의 스네이크
+	Snake mySnake = new Snake(0, 0);				// 나의 스네이크 //시작할때 nullPointerException 방지용으로 임시 snake에 할당해둠
 	
 	// 스네이크 맵
 	public HashMap<String, Snake> snakes = new HashMap<>(); // 닉네임으로 구별
@@ -57,9 +57,9 @@ public class GameBoard extends JFrame{
 		setBackground( Color.lightGray );
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		// 랜덤 위치에서 시작, 참고) 접속할 때 서버에서 랜덤으로 시작위치 주는 것으로 변경 필요
-		mySnake = new Snake( 100 + Math.random() * 400, Math.random() * 100 + 400);
-		snakes.put( nickname, mySnake ); // 맵에 추가
+//		// 랜덤 위치에서 시작, 접속할 때 서버에서 랜덤으로 시작위치 주는 것으로 변경함.
+//		mySnake = new Snake( 100 + Math.random() * 400, Math.random() * 100 + 400);
+//		snakes.put( nickname, mySnake ); // 맵에 추가
 		
 		// 창 닫을 시 프로그램 종료
 		this.addWindowListener( new java.awt.event.WindowAdapter() {

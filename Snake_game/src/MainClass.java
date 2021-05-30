@@ -2,6 +2,7 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,6 +18,8 @@ public class MainClass {
 	String IP = ""; 		// client의 경우 host IP 필요
 	int port; 				// port 번호
 	int mode; 				// 1 == host, 2 == client
+	static int MX_SZ = 10;
+	public static Socket[] connectList = new Socket[MX_SZ];//ArrayList로 변경 예정
 	
 	public MainClass(){
 		
@@ -40,8 +43,14 @@ public class MainClass {
 		System.out.println( "mode: " + mode );
 		
 		// Hosting
+		ServerSocket serverSocket = null;
 		if(mode==1) {
-			ServerSocket serverSocket = new ServerSocket(port);
+			try {
+				serverSocket = new ServerSocket(port);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			IP = "localhost";
 		}
 		/* 
@@ -61,10 +70,17 @@ public class MainClass {
 		// 다른 유저 입장 기다리기
 		if(mode==1) {
 			int userNum = 0;
+			
 			while(true) {
-				Socket connect = serverSocket.accept();
-				new Thread( new Client( myGame, connect, userNum++ ) ).start();
-				System.out.println( "new User connected." );
+				try {
+					connectList[userNum] = serverSocket.accept();
+					new Thread( new Client( myGame, connectList[userNum] ) ).start();
+					System.out.println( "new User "+Integer.toString(userNum)+" connected." );
+					userNum++;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		
