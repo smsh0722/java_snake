@@ -89,7 +89,7 @@ public class StartPage {
 		public void ipPop() {
 			String ipS = JOptionPane.showInputDialog("IP");
 			if ( ipS != null ) {
-				main.IP = main.IP.concat( ipS );
+				main.IP = ipS;
 				clientPop();
 			}
 		}

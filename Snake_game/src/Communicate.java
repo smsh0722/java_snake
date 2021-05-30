@@ -42,11 +42,15 @@ public class Communicate implements Runnable {
 					} //my Snake
 					else {
 						myGame.snakes.put( input[1], new Snake(x, y) );
+						System.out.println("Snake "+input[1]+" added on the board.");
 					} //other snake entered
 					break;
 					
 				case "updtPos":
-					myGame.snakes.get( input[1] ).move( x, y );
+					Snake tmpSnk = myGame.snakes.get( input[1] );
+					if(tmpSnk!=null) {
+						tmpSnk.move( x, y );
+					}
 					break;
 					
 				case "dead":
