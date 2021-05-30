@@ -1,15 +1,66 @@
 import java.util.ArrayList;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Client implements Runnable{
 	int userNum;
 	GameBoard myGame;
+	String nickname;
+	double x; double y;
 	
-	Client( GameBoard myGame ){
+	Socket socket;
+	DataInputStream in;
+	DataOutputStream out;
+	
+	Client( GameBoard myGame, Socket socket ){
 		this.myGame = myGame;
+		this.socket = socket; // = serverSocket.accept()
 	}
 	
 	public void run(){
-		
+		try {
+			BufferedInputStream bis = new BufferedInputStream (socket.getInputStream());
+			in = new DataInputStream(bis);
+			BufferedOutputStream bos = new BufferedOutputStream (socket.getOutputStream());
+			out = new DataOutputStream(bos);
+			
+			do {
+				String inputLine = in.readUTF();
+				String[] input = inputLine.split("/");
+				if(!input[0].equals("updtPos")) {System.out.println("Client reads: " + inputLine);} //debug
+				switch(input[0]) {
+				case "enter":
+					//초기 랜덤위치 생성해 전달
+					nickname = input[1];
+					input[2] = Double.toString(100 + Math.random() * 400);
+					input[3] = Double.toString(Math.random() * 100 + 400);
+					inputLine = String.join("/", input);
+					break;
+				case "updtPos":
+					break;
+				case "dead":
+					break;
+				default:
+					throw new IOException("unknown input command");
+				}
+				//다른 모든 클라에 해당 내용 전송
+				userNum = 0;
+				for(Socket clnt: MainClass.connectList) {
+					BufferedOutputStream tmpBos = new BufferedOutputStream (clnt.getOutputStream());
+					out = new DataOutputStream(tmpBos);
+					out.writeUTF(inputLine);
+					out.flush();
+					if(!input[0].equals("updtPos")) {System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine);} //debug
+				}
+			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// 입장하고 서버에서 랜덤 스폰 x, y 받기, 내 스네이크 생성: mySnake = new snake( x, y ), 내 맵에 추가: snakes.put( nickname, mySnake );
