@@ -60,9 +60,10 @@ public class Client implements Runnable{
 					BufferedOutputStream tmpBos = new BufferedOutputStream (clnt.getOutputStream());
 					out = new DataOutputStream(tmpBos);
 					out.writeUTF(inputLine);
+					out.flush();
 					System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine); //debug
 				}
-			}while ( myGame.mySnake.isAlive );
+			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

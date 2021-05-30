@@ -35,7 +35,7 @@ public class GameBoard extends JFrame{
 	
 	// 고유 정보
 	static String nickname = "defualt"; // 닉네임
-	Snake mySnake = new Snake(0, 0);				// 나의 스네이크 //시작할때 nullPointerException 방지용으로 임시 snake에 할당해둠
+	Snake mySnake;				// 나의 스네이크 //시작할때 nullPointerException 방지용으로 임시 snake에 할당해둠
 	
 	// 스네이크 맵
 	public HashMap<String, Snake> snakes = new HashMap<>(); // 닉네임으로 구별

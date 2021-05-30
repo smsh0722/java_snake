@@ -3,6 +3,7 @@ import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -19,7 +20,8 @@ public class MainClass {
 	int port; 				// port 번호
 	int mode; 				// 1 == host, 2 == client
 	static int MX_SZ = 10;
-	public static Socket[] connectList = new Socket[MX_SZ];//ArrayList로 변경 예정
+	static ArrayList<Socket> connectList = new ArrayList<>();
+//	public static Socket[] connectList = new Socket[MX_SZ];//ArrayList로 변경 예정
 	
 	public MainClass(){
 		
@@ -73,8 +75,9 @@ public class MainClass {
 			
 			while(true) {
 				try {
-					connectList[userNum] = serverSocket.accept();
-					new Thread( new Client( myGame, connectList[userNum] ) ).start();
+					Socket connect = serverSocket.accept();
+					connectList.add(connect);
+					new Thread( new Client( myGame, connect ) ).start();
 					System.out.println( "new User "+Integer.toString(userNum)+" connected." );
 					userNum++;
 				} catch (IOException e) {
