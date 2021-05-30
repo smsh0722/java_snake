@@ -28,24 +28,17 @@ public class Client implements Runnable{
 			BufferedOutputStream bos = new BufferedOutputStream (socket.getOutputStream());
 			out = new DataOutputStream(bos);
 			
-			//이니셜라이징
-			
-			//서버의 별도 어레이에 저장하고
-			//모든 뱀들의 닉네임+x+y를 계속 뿌려줘야 할까? 무슨 타입으로...? 
-			
 			do {
-				//
-				System.out.println("Client waiting to read: "); //debug
 				String inputLine = in.readUTF();
-				System.out.println("Client reads: " + inputLine); //debug
 				String[] input = inputLine.split("/");
+				if(!input[0].equals("updtPos")) {System.out.println("Client reads: " + inputLine);} //debug
 				switch(input[0]) {
 				case "enter":
 					//초기 랜덤위치 생성해 전달
 					nickname = input[1];
 					input[2] = Double.toString(100 + Math.random() * 400);
 					input[3] = Double.toString(Math.random() * 100 + 400);
-					inputLine = String.join("/", input); //그지같은 코드 죄송합니다..
+					inputLine = String.join("/", input);
 					break;
 				case "updtPos":
 					break;
@@ -61,7 +54,7 @@ public class Client implements Runnable{
 					out = new DataOutputStream(tmpBos);
 					out.writeUTF(inputLine);
 					out.flush();
-					System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine); //debug
+					if(!input[0].equals("updtPos")) {System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine);} //debug
 				}
 			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
 		} catch (IOException e) {

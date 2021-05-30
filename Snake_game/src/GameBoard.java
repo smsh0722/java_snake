@@ -106,7 +106,9 @@ public class GameBoard extends JFrame{
 	public void drawScore( Graphics g ) {
 		buffG.setColor( Color.CYAN );
 		buffG.setFont(new Font("TimesRoman", Font.PLAIN, 20) ); 
-		buffG.drawString( "Your Length: " + mySnake.bodylen, 50, 70);
+		if(mySnake != null) {
+			buffG.drawString( "Your Length: " + mySnake.bodylen, 50, 70);
+		}
 	}
 	
 	// Mouse Control
@@ -118,7 +120,7 @@ public class GameBoard extends JFrame{
 		// System.out.println( "Mouse>> x: " + x + ", y: " + y ); // Debug
 		
 		// 나의 스네이크 이동
-		this.mySnake.move( x, y );
+//		this.mySnake.move( x, y );
 		
 		// 서버에 x, y 전송
 		

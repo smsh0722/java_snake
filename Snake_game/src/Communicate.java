@@ -28,7 +28,7 @@ public class Communicate implements Runnable {
 				//서버에서 받아온 정보들 처리
 				String inputLine = fromServer.readUTF();
 				String[] input = inputLine.split("/");
-				System.out.println("GameTask(Communicate) reads: " + inputLine +"\n="+input[0]+"="); //debug
+				if(!input[0].equals("updtPos")) {System.out.println("GameTask(Communicate) reads: " + inputLine +"\n="+input[0]+"=");} //debug
 				
 				double x = Double.parseDouble(input[2]);
 				double y = Double.parseDouble(input[3]);
@@ -36,16 +36,17 @@ public class Communicate implements Runnable {
 				switch(input[0]) {
 				case "enter":
 					if (input[1].equals(myGame.nickname)) {
-						myGame.mySnake = new Snake( Double.parseDouble(input[2]), Double.parseDouble(input[3]) );
+						System.out.println("mySnake initialized.");
+						myGame.mySnake = new Snake( x, y );
 						myGame.snakes.put(myGame.nickname, myGame.mySnake);
 					} //my Snake
 					else {
-						myGame.snakes.put( myGame.nickname, new Snake(x, y) );
+						myGame.snakes.put( input[1], new Snake(x, y) );
 					} //other snake entered
 					break;
 					
 				case "updtPos":
-					myGame.snakes.get( myGame.nickname ).move( x, y );
+					myGame.snakes.get( input[1] ).move( x, y );
 					break;
 					
 				case "dead":
