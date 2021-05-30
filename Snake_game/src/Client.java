@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -15,6 +18,7 @@ public class Client implements Runnable{
 	Socket socket;
 	DataInputStream in;
 	DataOutputStream out;
+	DataOutputStream tmpOut;
 	
 	Client( GameBoard myGame, Socket socket ){
 		this.myGame = myGame;
@@ -36,9 +40,18 @@ public class Client implements Runnable{
 				case "enter":
 					//초기 랜덤위치 생성해 전달
 					nickname = input[1];
-					input[2] = Double.toString(100 + Math.random() * 400);
-					input[3] = Double.toString(Math.random() * 100 + 400);
-					inputLine = String.join("/", input);
+					inputLine = format("enter", nickname, 100 + Math.random() * 400, Math.random() * 100 + 400);
+					
+					//iterator로 myGame.snakes(호스트의 snakes)를 돌면서 닉넴/위치값 전부 enter로 socket (새유저)에 전송
+					Iterator<String> keys = myGame.snakes.keySet().iterator();
+			        while( keys.hasNext() ){
+			            String key = keys.next();
+			            Snake tmpSnk = myGame.snakes.get(key);
+			            System.out.println( String.format("키 : %s, 값 : %s", key, tmpSnk) );
+			            out.writeUTF( format("enter", key, tmpSnk.headPoint.getX(), tmpSnk.headPoint.getY()) );
+			            out.flush();
+			        }
+			        
 					break;
 				case "updtPos":
 					break;
@@ -49,11 +62,12 @@ public class Client implements Runnable{
 				}
 				//다른 모든 클라에 해당 내용 전송
 				userNum = 0;
+				
 				for(Socket clnt: MainClass.connectList) {
 					BufferedOutputStream tmpBos = new BufferedOutputStream (clnt.getOutputStream());
-					out = new DataOutputStream(tmpBos);
-					out.writeUTF(inputLine);
-					out.flush();
+					tmpOut = new DataOutputStream(tmpBos);
+					tmpOut.writeUTF(inputLine);
+					tmpOut.flush();
 					if(!input[0].equals("updtPos")) {System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine);} //debug
 				}
 			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
@@ -63,6 +77,10 @@ public class Client implements Runnable{
 		}
 	}
 	
+	
+	public String format(String status, String nickname, double x, double y) {
+		return status + "/" + nickname + "/" + Double.toString(x) + "/" + Double.toString(y);
+	}
 	// 입장하고 서버에서 랜덤 스폰 x, y 받기, 내 스네이크 생성: mySnake = new snake( x, y ), 내 맵에 추가: snakes.put( nickname, mySnake );
 	// 새로운 유저 입장하면 스네이크 (x, y)와 닉네임 정보 받고, 내 맵에 추가: snakes.put( nickname, new snake(x, y) )
 	
