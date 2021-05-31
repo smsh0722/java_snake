@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
-import javax.swing.JFrame;
 
 
 
@@ -12,6 +13,7 @@ public class Snake {
 	double previousX;
 	double previousY;
 	int bodylen;
+	Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	Snake(double x, double y) {
 		snakeLocationList = new ArrayList<>();
@@ -80,10 +82,11 @@ public class Snake {
 		
 	}
 	public void BoardOut() {
-		if(headPoint.x < 0 || headPoint.x > JFrame.MAXIMIZED_HORIZ) {
+		
+		if(headPoint.x <= 0 || headPoint.x >= d.width) {
 			isAlive = false;
 		}
-		else if(headPoint.y < 0 || headPoint.x > JFrame.MAXIMIZED_VERT) {
+		else if(headPoint.y <= 0 || headPoint.y >= d.height) {
 			isAlive = false;
 		}
 	}
