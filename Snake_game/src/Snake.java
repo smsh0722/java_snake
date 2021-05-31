@@ -88,7 +88,6 @@ public class Snake {
 		}
 	}
 	
-	
 	public class SnakeLocationPoint {
 	    double x;
 	    double y;
