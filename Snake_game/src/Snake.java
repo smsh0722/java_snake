@@ -70,6 +70,7 @@ public class Snake {
 				isAlive = false;
 			}
 		}
+		/*
 		//자기 몸통에 부딪히면 죽음(head인 경우는 제자리이므로 제외)
 		for(int i = 1; i < snakeLocationList.size(); i++) {
 			//1보다 작으면 겹침
@@ -78,7 +79,7 @@ public class Snake {
 				feed.MakeFeedPlus(nx, ny);
 				isAlive = false;
 			}
-		}
+		}*/
 		//board 나가면 죽음
 		if(nx < 0 || nx > 700) {
 			isAlive = false;

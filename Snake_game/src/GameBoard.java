@@ -95,12 +95,14 @@ public class GameBoard extends JFrame{
 		Set<String> keys = snakes.keySet();
 		for ( String key : keys ) {
 			Snake snake = snakes.get(key);
-			buffG.setColor( Color.red ); // 나중에 고유 색깔로 변경 필요
+			if ( snake == mySnake ) buffG.setColor( Color.BLUE);
+			else 					buffG.setColor( Color.red ); 
 			for ( Integer i = 0; i < snake.snakeLocationList.size(); i++ ) {
 				double x = snake.snakeLocationList.get(i).x;
 				double y = snake.snakeLocationList.get(i).y;
 				buffG.fillOval( (int)x, (int)y, 12, 12);
 			}
+			buffG.drawString( key, (int)snake.snakeLocationList.get(0).x , (int)snake.snakeLocationList.get(0).y);
 		}
 	}
 	public void drawScore( Graphics g ) {

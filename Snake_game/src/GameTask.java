@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Set;
 
 public class GameTask implements Runnable {
 	public GameBoard myGame = null;
@@ -48,7 +49,12 @@ public class GameTask implements Runnable {
 				//send my mouse position
 				toServer.writeUTF( format("updtPos", myGame.nickname, myGame.x, myGame.y) );
 				toServer.flush();
-				
+				/*
+				Set<String> keys = myGame.snakes.keySet();
+				for ( String key: keys) {
+					Snake snake2 = myGame.snakes.get(key);
+					snake.Collision( snake, snake2 );
+				}*/
 			}
 			myGame.snakes.remove( myGame.nickname ); // 자신의 해쉬맵에서 자신 제거
 			//send my death position
