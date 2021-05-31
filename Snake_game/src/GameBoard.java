@@ -120,6 +120,16 @@ public class GameBoard extends JFrame{
 		}
 		//뱀이 채 생성되지 못하였을때 널포인터예외때문에 조건을 달았으나, 죽은 후에 점수가 사라져버릴 수 있음..
 	}
+	public void drawFeeds( Graphics g ) {
+		buffG.setColor( Color.CYAN );
+		/*
+		for ( 각 먹이 받기 ){
+			double x = 먹이 x
+			double y = 먹이 y
+			buffG.fillOval( (int)x, (int)y, 12, 12 );
+		}
+		*/
+	}
 	
 	// Mouse Control
 	public void Control( ) {

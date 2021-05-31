@@ -54,11 +54,27 @@ public class Snake {
 		}
 		
 	}
+	
+	public void CollisionFeed(Feed feed) {
+		
+		for(int i = 0; i < feed.feedLocationList.size(); i++) {
+			double len = Math.pow(feed.feedLocationList.get(i).x - headPoint.x, 2) + Math.pow(feed.feedLocationList.get(i).y - headPoint.y, 2);
+			if(len < 144) {
+				bodylen += 2;
+				feed.feedLocationList.remove(i);
+			}
+		}
+		if(isAlive = false) {
+			feed.MakeFeedPlus(headPoint.x, headPoint.y);
+		}	
+	}
+	
 	public void BoardOut() {
-		if(headPoint.x <= 0 || headPoint.x >= JFrame.MAXIMIZED_HORIZ) {
+		SnakeLocationPoint hp = snakeLocationList.get(0);
+		if(hp.x <= 0 || hp.x >= JFrame.MAXIMIZED_HORIZ) {
 			isAlive = false;
 		}
-		else if(headPoint.y <= 0 || headPoint.y >= JFrame.MAXIMIZED_VERT) {
+		else if(hp.y <= 0 || hp.y >= JFrame.MAXIMIZED_VERT) {
 			isAlive = false;
 		}
 	}
