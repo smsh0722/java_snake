@@ -128,13 +128,13 @@ public class GameBoard extends JFrame{
 	}
 	public void drawFeeds( Graphics g ) {
 		buffG.setColor( Color.CYAN );
-		/*
-		for ( ∞¢ ∏‘¿Ã πﬁ±‚ ){
-			double x = ∏‘¿Ã x
-			double y = ∏‘¿Ã y
+		
+		for ( int i = 0; i < feed.feedLocationList.size(); i++){
+			double x = feed.feedLocationList.get(i).x;
+			double y = feed.feedLocationList.get(i).y;
 			buffG.fillOval( (int)x, (int)y, 12, 12 );
 		}
-		*/
+		
 	}
 	
 	// Mouse Control

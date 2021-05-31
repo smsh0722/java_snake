@@ -8,7 +8,7 @@ public class Feed {
 	Random rndY = new Random(450);
 	
 	Feed(){
-		
+	
 	}
 	//¸ÔÀÌ »ı¼º ·£´ıÇÔ¼ö
 	public void MakeFeedPoint() {
