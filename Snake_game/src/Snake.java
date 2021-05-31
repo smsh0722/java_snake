@@ -17,20 +17,20 @@ public class Snake {
 	
 	Snake(double x, double y) {
 		snakeLocationList = new ArrayList<>();
-		headPoint = new SnakeLocationPoint(x,y); //ÀÔ·Â¹ŞÀº À§Ä¡¸¦ ½ÃÀÛÀ§Ä¡·Î ¸ö±æÀÌ ¼³Á¤
+		headPoint = new SnakeLocationPoint(x,y); //ì…ë ¥ë°›ì€ ìœ„ì¹˜ë¥¼ ì‹œì‘ìœ„ì¹˜ë¡œ ëª¸ê¸¸ì´ ì„¤ì •
 
 		snakeLocationList.add(headPoint);
 		for ( int i = 0; i < 10; i ++ ) {
 			snakeLocationList.add(new SnakeLocationPoint(headPoint.x+i, headPoint.y));
 		}
-		bodylen = 11; // ±âº» 11 ·Î ½ÃÀÛ
+		bodylen = 11; // ê¸°ë³¸ 11 ë¡œ ì‹œì‘
 	}
 	
 	public void move(double mouseX, double mouseY/*, Feed feed */) {
 		headPoint = snakeLocationList.get(0);
 		
 		double angle = Math.atan2(mouseY-headPoint.y, mouseX-headPoint.x);
-        double nextX = headPoint.x + Math.cos(angle) * 1.5;//¸¶¿ì½º ¹æÇâÀÇ »õ·Î¿î ÁÂÇ¥
+        double nextX = headPoint.x + Math.cos(angle) * 1.5;//ë§ˆìš°ìŠ¤ ë°©í–¥ì˜ ìƒˆë¡œìš´ ì¢Œí‘œ
         double nextY = headPoint.y + Math.sin(angle) * 1.5;
         
 		int listlen = snakeLocationList.size();
@@ -39,17 +39,22 @@ public class Snake {
         snakeLocationList.add(0, headPoint);
         
         if ( bodylen <= listlen ) snakeLocationList.remove(listlen);
-        /*
-		for(int i = 0; i < feed.feedLocationList.size(); i++) {
-			double len = Math.pow(feed.feedLocationList.get(i).x - nextX, 2) + Math.pow(feed.feedLocationList.get(i).y - nextY, 2);
-			if(len < 1) {
-				bodylen += 2;
-				feed.feedLocationList.remove(i);
+	}
+	
+	public void Collision(Snake snake1) {
+		SnakeLocationPoint hp = snakeLocationList.get(0);
+		double nx = hp.x;
+		double ny = hp.y;
+		
+		//ë‹¤ë¥¸ ì§€ë ì´ì— ë¶€ë”ªí˜
+		for(int i = 0; i < snake1.snakeLocationList.size(); i++) {
+			//1ë³´ë‹¤ ì‘ìœ¼ë©´ ê²¹ì¹¨
+			double len = Math.pow(snake1.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake1.snakeLocationList.get(i).y - ny, 2);
+			if(len < 144) {
+				isAlive = false;
 			}
 		}
-		*/
-		// test
-		// for ( int i = 0; i < listlen; i++ ) System.out.println( snakeLocationList.get(i).x + ", " + snakeLocationList.get(i).y );
+		
 	}
 	
 	public void CollisionFeed(Feed feed) {
@@ -66,28 +71,14 @@ public class Snake {
 		}	
 	}
 	
-	public void CollisionSnake(Snake snake1) {
-		double nx = headPoint.x;
-		double ny = headPoint.y;
-		
-		//´Ù¸¥ Áö··ÀÌ¿¡ ºÎµúÈû
-		for(int i = 0; i < snake1.snakeLocationList.size(); i++) {
-			//1º¸´Ù ÀÛÀ¸¸é °ãÄ§
-			double len = Math.pow(snake1.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake1.snakeLocationList.get(i).y - ny, 2);
-			if(len < 144) {
-				isAlive = false;
-				
-			}
-		}
-		
-	}
-	public void BoardOut() {
-		
-		if(headPoint.x <= 0 || headPoint.x >= d.width) {
+public void BoardOut() {
+		SnakeLocationPoint hp = snakeLocationList.get(0);
+		if(hp.x <= 0 || hp.x >= d.width) {
 			isAlive = false;
 		}
-		else if(headPoint.y <= 0 || headPoint.y >= d.height) {
-			isAlive = false;
+		else if(hp.y <= 0 || hp.y >= d.height) {
+      isAlive = false;
+		
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class Communicate implements Runnable {
 			BufferedOutputStream bos = new BufferedOutputStream (socket.getOutputStream());
 			toServer = new DataOutputStream(bos);
 			
-			while(true) {
+			while(!myGame.isExit) {
 				//서버에서 받아온 정보들 처리
 				String inputLine = fromServer.readUTF();
 				String[] input = inputLine.split("/");
@@ -56,6 +56,9 @@ public class Communicate implements Runnable {
 				case "dead":
 					//먹이생성..?
 					myGame.snakes.remove( input[1] );
+					System.out.println(input[1]+" Died.");
+					break;
+				case "exit":
 					break;
 				default:
 					throw new IOException("unknown input command");

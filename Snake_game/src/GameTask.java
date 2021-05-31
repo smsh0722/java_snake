@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Set;
 
 public class GameTask implements Runnable {
 	public GameBoard myGame = null;
@@ -34,7 +35,18 @@ public class GameTask implements Runnable {
 			System.out.println("GameTask writes nickname"); //debug
 			new Thread( new Communicate( myGame, socket ) ).start();//communicate with server and adapt to myGame
 			
-			while ( myGame.mySnake==null || myGame.mySnake.isAlive ) {
+			while(myGame.mySnake==null) {
+				try {
+					Thread.sleep( 16 ); // 16ms >> 60fps
+					// boost를 원한다면 17보다 작게
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			while ( !myGame.isExit ) {
+//			while ( myGame.mySnake==null || myGame.mySnake.isAlive ) {
 				try {
 					Thread.sleep( 16 ); // 16ms >> 60fps
 					// boost를 원한다면 17보다 작게
@@ -43,20 +55,47 @@ public class GameTask implements Runnable {
 					e.printStackTrace();
 				}
 				
+				//살아있는지 테스트
+				if(!myGame.mySnake.isAlive) {
+					//send my death position
+					toServer.writeUTF( format("dead", myGame.nickname, myGame.mySnake.headPoint.getX(), myGame.mySnake.headPoint.getY()) );
+					toServer.flush();
+					System.out.println("GameTask sent dying message to server.");
+					/* 서버에 죽었음을 닉네임과 함께 전송
+					 * 모든 유저에 뿌리기
+					 * 각 유저마다 자신의 해쉬맵에서 해당 스네이크 제거
+					 */
+					while ( !myGame.isExit ) {
+						try {
+							Thread.sleep( 16 );
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}//관전모드
+					break;
+				}
+				
 				myGame.Control();//내 snake 조종
 				
 				//send my mouse position
 				toServer.writeUTF( format("updtPos", myGame.nickname, myGame.x, myGame.y) );
 				toServer.flush();
 				
+				// 충돌 테스트
+				Set<String> keys = myGame.snakes.keySet();
+				for ( String key: keys) {
+					Snake snakeX = myGame.snakes.get(key);
+					if ( snakeX != myGame.mySnake ) myGame.mySnake.Collision( snakeX );
+				}
+				// 경계 테스트
+				// myGame.mySnake.BoardOut();
+				// 먹이 충돌 테스트
+				
 			}
-			myGame.snakes.remove( myGame.nickname ); // 자신의 해쉬맵에서 자신 제거
-			//send my death position
-			toServer.writeUTF( format("dead", myGame.nickname, myGame.mySnake.headPoint.getX(), myGame.mySnake.headPoint.getY()) );
-			/* 서버에 죽었음을 닉네임과 함께 전송
-			 * 모든 유저에 뿌리기
-			 * 각 유저마다 자신의 해쉬맵에서 해당 스네이크 제거
-			 */
+			//서버에 겜종 알림
+			toServer.writeUTF( format("exit", myGame.nickname, 0, 0) );
+			toServer.flush();
+			System.out.println("exiting...");
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

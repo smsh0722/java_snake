@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Client implements Runnable{
-	int userNum;
+	int ClientNum;//이 쓰레드가 관리하는 클라이언트의 고유번호
+	int clntIdx;//다른 유저한테 정보 뿌릴때 보기좋으라고 있는 변수
+	
+	boolean isExit = false;
 	GameBoard myGame;
 	String nickname;
 	double x; double y;
@@ -20,9 +23,11 @@ public class Client implements Runnable{
 	DataOutputStream out;
 	DataOutputStream tmpOut;
 	
-	Client( GameBoard myGame, Socket socket ){
+	Client( GameBoard myGame, Socket socket, int userNum ){
 		this.myGame = myGame;
 		this.socket = socket; // = serverSocket.accept()
+		this.ClientNum = userNum;
+		
 	}
 	
 	public void run(){
@@ -35,7 +40,7 @@ public class Client implements Runnable{
 			do {
 				String inputLine = in.readUTF();
 				String[] input = inputLine.split("/");
-				if(!input[0].equals("updtPos")) {System.out.println("Client reads: " + inputLine);} //debug
+				if(!input[0].equals("updtPos")) {System.out.println("Client"+ClientNum+" reads: " + inputLine);} //debug
 				switch(input[0]) {
 				case "enter":
 					//초기 랜덤위치 생성해 전달
@@ -57,20 +62,31 @@ public class Client implements Runnable{
 					break;
 				case "dead":
 					break;
+				case "exit":
+					isExit = true;
+					break;
 				default:
 					throw new IOException("unknown input command");
 				}
 				//다른 모든 클라에 해당 내용 전송
-				userNum = 0;
+				clntIdx = 0;
 				
 				for(Socket clnt: MainClass.connectList) {
 					BufferedOutputStream tmpBos = new BufferedOutputStream (clnt.getOutputStream());
 					tmpOut = new DataOutputStream(tmpBos);
 					tmpOut.writeUTF(inputLine);
 					tmpOut.flush();
-					if(!input[0].equals("updtPos")) {System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine);} //debug
+					if(!input[0].equals("updtPos")) {System.out.println("Client"+Integer.toString(ClientNum)+" writes on clnt "+ Integer.toString(clntIdx++) + ": " + inputLine);} //debug
 				}
-			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
+//			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
+			}while ( !isExit );
+			
+			System.out.println("Client of exit socket Finally escaped the loop!");
+			//관전은 가능할듯 합니다..?
+			
+			MainClass.connectList.remove(socket);
+			//창을 닫기 전까지는 유저가 죽어도 리무브 안함. (유저는 죽어도 다른 유저의 데이터 받으면서 관전함)
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

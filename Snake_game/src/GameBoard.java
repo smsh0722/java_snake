@@ -32,6 +32,7 @@ public class GameBoard extends JFrame{
 	public int mode = 0; // 0 = none, 1 == hosting, 2 == client
 	static int port = 0;
 	String IP;
+	boolean isExit = false;
 	
 	// 고유 정보
 	static String nickname = "defualt"; // 닉네임
@@ -64,9 +65,17 @@ public class GameBoard extends JFrame{
 		// 창 닫을 시 프로그램 종료
 		this.addWindowListener( new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if ( mySnake.isAlive ) 
-					// 서버에 죽었음을 알리기
-					
+				if ( mySnake.isAlive ) {
+					mySnake.isAlive = false;
+				}
+				// 서버에 연결 종료를 알리기
+				isExit = true;
+				try {
+				    Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				    e.printStackTrace();
+				}//서버에서 연결 끊고 모든 클라에서 뱀 지우는 동안 대기하기 - 1000ms보다 더 줄여도 될듯
+				
 				// 시스템 종료
 				System.exit(0);
 		    }
@@ -95,12 +104,14 @@ public class GameBoard extends JFrame{
 		Set<String> keys = snakes.keySet();
 		for ( String key : keys ) {
 			Snake snake = snakes.get(key);
-			buffG.setColor( Color.red ); // 나중에 고유 색깔로 변경 필요
+			if ( snake == mySnake ) buffG.setColor( Color.BLUE);
+			else 					buffG.setColor( Color.red ); 
 			for ( Integer i = 0; i < snake.snakeLocationList.size(); i++ ) {
 				double x = snake.snakeLocationList.get(i).x;
 				double y = snake.snakeLocationList.get(i).y;
 				buffG.fillOval( (int)x, (int)y, 12, 12);
 			}
+			buffG.drawString( key, (int)snake.snakeLocationList.get(0).x , (int)snake.snakeLocationList.get(0).y);
 		}
 	}
 	public void drawScore( Graphics g ) {
@@ -109,6 +120,20 @@ public class GameBoard extends JFrame{
 		if(mySnake != null) {
 			buffG.drawString( "Your Length: " + mySnake.bodylen, 50, 70);
 		}
+		//뱀이 채 생성되지 못하였을때 널포인터예외때문에 조건을 달았으나, 죽은 후에 점수가 사라져버릴 수 있음..
+		if ( mySnake == null ) {
+			buffG.drawString( "Observing..", 50, 70 );
+		}
+	}
+	public void drawFeeds( Graphics g ) {
+		buffG.setColor( Color.CYAN );
+		/*
+		for ( 각 먹이 받기 ){
+			double x = 먹이 x
+			double y = 먹이 y
+			buffG.fillOval( (int)x, (int)y, 12, 12 );
+		}
+		*/
 	}
 	
 	// Mouse Control
