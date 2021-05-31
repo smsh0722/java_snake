@@ -56,12 +56,17 @@ public class Client implements Runnable{
 			            out.writeUTF( format("enter", key, tmpSnk.headPoint.getX(), tmpSnk.headPoint.getY()) );
 			            out.flush();
 			        }
-			        
 					break;
+					
 				case "updtPos":
 					break;
 				case "dead":
 					break;
+					
+				case "feed"://클라에서 오는 feed 뜻: nickname이 먹이를 먹었으니 새로 생성해라
+					inputLine = format("feed", nickname, 100 + Math.random() * 400, Math.random() * 100 + 400) ;
+					break;
+					
 				case "exit":
 					isExit = true;
 					break;
@@ -78,7 +83,6 @@ public class Client implements Runnable{
 					tmpOut.flush();
 					if(!input[0].equals("updtPos")) {System.out.println("Client"+Integer.toString(ClientNum)+" writes on clnt "+ Integer.toString(clntIdx++) + ": " + inputLine);} //debug
 				}
-//			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
 			}while ( !isExit );
 			
 			System.out.println("Client of exit socket Finally escaped the loop!");
