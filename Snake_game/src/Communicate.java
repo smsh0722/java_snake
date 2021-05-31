@@ -54,9 +54,21 @@ public class Communicate implements Runnable {
 					break;
 					
 				case "dead":
-					//먹이생성..?
 					myGame.snakes.remove( input[1] );
 					System.out.println(input[1]+" Died.");
+					//nickname이 죽은위치에 먹이생성
+					myGame.feed.MakeFeedPlus(x, y);
+					break;
+					
+				case "feed"://서버에서 오는 랜덤 위치에 먹이 생성
+					//input[1]이 먹은거임. nickname = input[1];
+					/*
+					 * 		먹이 먹은 유저와 다른 유저 모두 같은 메시지를 전달받음.
+					 * 		먹이먹은뱀 = myGame.snakes.get(nickname); 	//해당 닉네임의 뱀 리턴
+					 * 		먹이먹은뱀.RemoveCollidedFeed(feed);		//그 뱀이 충돌한 먹이를 다시 찾아서 먹이는 없애고 뱀은 길이 늘림.
+					 * 
+					 * */
+					myGame.feed.MakeFeedPlus(x, y);
 					break;
 				case "exit":
 					break;

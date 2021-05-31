@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 
 public class GameBoard extends JFrame{
-	
+	Feed feed;
 	// 마우스 위치
 	double x, y;
 	

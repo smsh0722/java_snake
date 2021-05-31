@@ -90,6 +90,14 @@ public class GameTask implements Runnable {
 				// 경계 테스트
 				// myGame.mySnake.BoardOut();
 				// 먹이 충돌 테스트
+				/*	if(mySnake.CollisionFeed){
+				 * 		//내 Snake가 먹이 먹었다고 서버에 전달
+				 * 		toServer.writeUTF( format("feed", myGame.nickname, myGame.x, myGame.y) );
+				 *		toServer.flush();
+				 *		//그럼 서버에서 먹은사람과 새로운 먹이 위치를 보내줄거임.
+				 *		//그다음 일들은 Communication에서 처리
+				 * 	}
+				 */
 				
 			}
 			//서버에 겜종 알림
