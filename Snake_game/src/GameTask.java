@@ -88,8 +88,13 @@ public class GameTask implements Runnable {
 					if ( snakeX != myGame.mySnake ) myGame.mySnake.CollisionSnake( snakeX );
 				}
 				// 경계 테스트
-				// myGame.mySnake.BoardOut();
+				 myGame.mySnake.BoardOut();
 				// 먹이 충돌 테스트
+				 if(myGame.mySnake.CollisionFeed(myGame.feed)) {
+					 toServer.writeUTF( format("feed", myGame.nickname, myGame.x, myGame.y) );
+					 toServer.flush();
+				 }
+				 
 				/*	if(mySnake.CollisionFeed){
 				 * 		//내 Snake가 먹이 먹었다고 서버에 전달
 				 * 		toServer.writeUTF( format("feed", myGame.nickname, myGame.x, myGame.y) );

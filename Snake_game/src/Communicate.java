@@ -62,6 +62,7 @@ public class Communicate implements Runnable {
 					
 				case "feed"://서버에서 오는 랜덤 위치에 먹이 생성
 					//input[1]이 먹은거임. nickname = input[1];
+					myGame.snakes.get(input[1]).RemoveCollisionFeed(myGame.feed);
 					/*
 					 * 		먹이 먹은 유저와 다른 유저 모두 같은 메시지를 전달받음.
 					 * 		먹이먹은뱀 = myGame.snakes.get(nickname); 	//해당 닉네임의 뱀 리턴
@@ -70,6 +71,10 @@ public class Communicate implements Runnable {
 					 * */
 					myGame.feed.MakeFeedPlus(x, y);
 					break;
+				case "distribute":
+					myGame.feed.MakeFeedPlus(x, y);
+					break;
+					
 				case "exit":
 					break;
 				default:

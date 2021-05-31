@@ -21,6 +21,7 @@ public class Accept implements Runnable {
 			e.printStackTrace();
 		}
 		
+		new Thread( new FeedDistribute() ).start();//밥주는 기계 가동시작
 		
 		int userNum = 0;
 		

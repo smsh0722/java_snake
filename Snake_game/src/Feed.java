@@ -7,6 +7,9 @@ public class Feed {
 	Random rndX = new Random(650);
 	Random rndY = new Random(450);
 	
+	Feed(){
+		
+	}
 	//¸ÔÀÌ »ý¼º ·£´ýÇÔ¼ö
 	public void MakeFeedPoint() {
 		feedLocationList.add(new FeedLocationPoint(rndX.nextDouble(), rndY.nextDouble()));
