@@ -40,8 +40,9 @@ public class Snake {
 	}
 	
 	public void Collision(Snake snake1) {
-		double nx = headPoint.x;
-		double ny = headPoint.y;
+		SnakeLocationPoint hp = snakeLocationList.get(0);
+		double nx = hp.x;
+		double ny = hp.y;
 		
 		//´Ù¸¥ Áö··ÀÌ¿¡ ºÎµúÈû
 		for(int i = 0; i < snake1.snakeLocationList.size(); i++) {

@@ -59,7 +59,7 @@ public class GameTask implements Runnable {
 				// 경계 테스트
 				// myGame.mySnake.BoardOut();
 				// 먹이 충돌 테스트
-				 
+				
 			}
 			//send my death position
 			toServer.writeUTF( format("dead", myGame.nickname, myGame.mySnake.headPoint.getX(), myGame.mySnake.headPoint.getY()) );
