@@ -35,7 +35,18 @@ public class GameTask implements Runnable {
 			System.out.println("GameTask writes nickname"); //debug
 			new Thread( new Communicate( myGame, socket ) ).start();//communicate with server and adapt to myGame
 			
-			while ( myGame.mySnake==null || myGame.mySnake.isAlive ) {
+			while(myGame.mySnake==null) {
+				try {
+					Thread.sleep( 16 ); // 16ms >> 60fps
+					// boost를 원한다면 17보다 작게
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			while ( myGame.mySnake.isAlive ) {
+//			while ( myGame.mySnake==null || myGame.mySnake.isAlive ) {
 				try {
 					Thread.sleep( 16 ); // 16ms >> 60fps
 					// boost를 원한다면 17보다 작게
