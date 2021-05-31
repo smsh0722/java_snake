@@ -51,6 +51,7 @@ public class MainClass {
 		
 		myGame.nickname = nickname;		myGame.IP = IP;
 		myGame.port = port;		myGame.mode = mode;
+		myGame.setTitle("Snake - " + myGame.nickname + (mode==1? " as Host":" as Client"));
 
 		// Control Thread
 		// 참고) 나의 것은 직접 컨트롤

@@ -28,7 +28,7 @@ public class Accept implements Runnable {
 			try {
 				Socket connect = serverSocket.accept();
 				MainClass.connectList.add(connect);
-				new Thread( new Client( myGame, connect ) ).start();
+				new Thread( new Client( myGame, connect, userNum ) ).start();
 				System.out.println( "new User "+Integer.toString(userNum)+" connected." );
 				userNum++;
 			} catch (IOException e) {
