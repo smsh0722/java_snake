@@ -21,7 +21,6 @@ public class MainClass {
 	int mode; 				// 1 == host, 2 == client
 	static int MX_SZ = 10;
 	static ArrayList<Socket> connectList = new ArrayList<>();
-//	public static Socket[] connectList = new Socket[MX_SZ];//ArrayList로 변경 예정
 	
 	public MainClass(){
 		
@@ -45,47 +44,19 @@ public class MainClass {
 		System.out.println( "mode: " + mode );
 		
 		// Hosting
-		ServerSocket serverSocket = null;
 		if(mode==1) {
-			try {
-				serverSocket = new ServerSocket(port);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			new Thread( new Accept( myGame, port ) ).start();
 			IP = "localhost";
 		}
-		/* 
-		 */
 		
 		myGame.nickname = nickname;		myGame.IP = IP;
 		myGame.port = port;		myGame.mode = mode;
-		/*
-		 */
 
 		// Control Thread
 		// 참고) 나의 것은 직접 컨트롤
 		GameTask myST = new GameTask( myGame );
 		new Thread( myST ).start();
 
-		// Client
-		// 다른 유저 입장 기다리기
-		if(mode==1) {
-			int userNum = 0;
-			
-			while(true) {
-				try {
-					Socket connect = serverSocket.accept();
-					connectList.add(connect);
-					new Thread( new Client( myGame, connect ) ).start();
-					System.out.println( "new User "+Integer.toString(userNum)+" connected." );
-					userNum++;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
 		
 		// 참고) 다른 사람 것은 서버에서 x,y 받아와 해쉬맵에서 찾아내 move 시킴
 	}
