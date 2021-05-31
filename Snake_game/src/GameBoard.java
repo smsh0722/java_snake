@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 
 public class GameBoard extends JFrame{
-	Feed feed;
+	
 	// 마우스 위치
 	double x, y;
 	
@@ -42,6 +42,7 @@ public class GameBoard extends JFrame{
 	public HashMap<String, Snake> snakes = new HashMap<>(); // 닉네임으로 구별
 	
 	// 먹이 맵
+	Feed feed = new Feed();
 	
 	// Paint 용
 	Toolkit tk = Toolkit.getDefaultToolkit();
