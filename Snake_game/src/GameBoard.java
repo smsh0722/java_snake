@@ -64,7 +64,14 @@ public class GameBoard extends JFrame{
 		// 창 닫을 시 프로그램 종료
 		this.addWindowListener( new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if ( mySnake.isAlive ) 
+				if ( mySnake.isAlive ) {
+					mySnake.isAlive = false;
+					try {
+					    Thread.sleep(500);
+					} catch (InterruptedException e) {
+					    e.printStackTrace();
+					}//서버에서 연결 끊고 모든 클라에서 뱀 지우는 동안 대기하기 - 500ms보다 더 줄여도 될듯
+				}
 					// 서버에 죽었음을 알리기
 					
 				// 시스템 종료
@@ -111,6 +118,7 @@ public class GameBoard extends JFrame{
 		if(mySnake != null) {
 			buffG.drawString( "Your Length: " + mySnake.bodylen, 50, 70);
 		}
+		//뱀이 채 생성되지 못하였을때 널포인터예외때문에 조건을 달았으나, 죽은 후에 점수가 사라져버릴 수 있음..
 	}
 	
 	// Mouse Control

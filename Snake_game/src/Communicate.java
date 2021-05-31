@@ -56,6 +56,7 @@ public class Communicate implements Runnable {
 				case "dead":
 					//¸ÔÀÌ»ı¼º..?
 					myGame.snakes.remove( input[1] );
+					System.out.println(input[1]+" Died.");
 					break;
 				default:
 					throw new IOException("unknown input command");

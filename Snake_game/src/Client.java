@@ -11,6 +11,7 @@ import java.net.Socket;
 
 public class Client implements Runnable{
 	int userNum;
+	boolean isAlive = true;//myGame.snake.isAlive는 뱀이 죽어 없어지면 참조 불가하므로 로컬변수 마련
 	GameBoard myGame;
 	String nickname;
 	double x; double y;
@@ -56,6 +57,7 @@ public class Client implements Runnable{
 				case "updtPos":
 					break;
 				case "dead":
+					isAlive = false;
 					break;
 				default:
 					throw new IOException("unknown input command");
@@ -70,7 +72,12 @@ public class Client implements Runnable{
 					tmpOut.flush();
 					if(!input[0].equals("updtPos")) {System.out.println("Client writes on clnt "+ Integer.toString(userNum++) + ": " + inputLine);} //debug
 				}
-			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
+//			}while ( myGame.mySnake==null || myGame.mySnake.isAlive );
+			}while ( isAlive );
+			
+			System.out.println("Client of dead socket Finally escaped the loop!");
+			//관전은 불가능할듯 합니다.....
+			MainClass.connectList.remove(socket);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
