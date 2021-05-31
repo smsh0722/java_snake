@@ -61,9 +61,11 @@ public class GameTask implements Runnable {
 				// 먹이 충돌 테스트
 				 
 			}
-			myGame.snakes.remove( myGame.nickname ); // 자신의 해쉬맵에서 자신 제거
 			//send my death position
 			toServer.writeUTF( format("dead", myGame.nickname, myGame.mySnake.headPoint.getX(), myGame.mySnake.headPoint.getY()) );
+			toServer.flush();
+			System.out.println("GameTask sent dying message to server.");
+			//			myGame.snakes.remove( myGame.nickname ); // 자신의 해쉬맵에서 자신 제거 //Communication에서 다른 유저 뱀과 동일하게 제거하는 것으로 변경.
 			/* 서버에 죽었음을 닉네임과 함께 전송
 			 * 모든 유저에 뿌리기
 			 * 각 유저마다 자신의 해쉬맵에서 해당 스네이크 제거
