@@ -47,18 +47,17 @@ public class Snake {
 		for(int i = 0; i < snake1.snakeLocationList.size(); i++) {
 			//1보다 작으면 겹침
 			double len = Math.pow(snake1.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake1.snakeLocationList.get(i).y - ny, 2);
-			if(len < 1) {
+			if(len < 144) {
 				isAlive = false;
-				
 			}
 		}
 		
 	}
 	public void BoardOut() {
-		if(headPoint.x < 0 || headPoint.x > JFrame.MAXIMIZED_HORIZ) {
+		if(headPoint.x <= 0 || headPoint.x >= JFrame.MAXIMIZED_HORIZ) {
 			isAlive = false;
 		}
-		else if(headPoint.y < 0 || headPoint.x > JFrame.MAXIMIZED_VERT) {
+		else if(headPoint.y <= 0 || headPoint.y >= JFrame.MAXIMIZED_VERT) {
 			isAlive = false;
 		}
 	}
