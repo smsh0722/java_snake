@@ -85,7 +85,7 @@ public class GameTask implements Runnable {
 				Set<String> keys = myGame.snakes.keySet();
 				for ( String key: keys) {
 					Snake snakeX = myGame.snakes.get(key);
-					if ( snakeX != myGame.mySnake ) myGame.mySnake.Collision( snakeX );
+					if ( snakeX != myGame.mySnake ) myGame.mySnake.CollisionSnake( snakeX );
 				}
 				// 경계 테스트
 				// myGame.mySnake.BoardOut();
