@@ -32,6 +32,7 @@ public class GameBoard extends JFrame{
 	public int mode = 0; // 0 = none, 1 == hosting, 2 == client
 	static int port = 0;
 	String IP;
+	boolean isExit = false;
 	
 	// 고유 정보
 	static String nickname = "defualt"; // 닉네임
@@ -66,14 +67,15 @@ public class GameBoard extends JFrame{
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				if ( mySnake.isAlive ) {
 					mySnake.isAlive = false;
-					try {
-					    Thread.sleep(500);
-					} catch (InterruptedException e) {
-					    e.printStackTrace();
-					}//서버에서 연결 끊고 모든 클라에서 뱀 지우는 동안 대기하기 - 500ms보다 더 줄여도 될듯
 				}
-					// 서버에 죽었음을 알리기
-					
+				// 서버에 연결 종료를 알리기
+				isExit = true;
+				try {
+				    Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				    e.printStackTrace();
+				}//서버에서 연결 끊고 모든 클라에서 뱀 지우는 동안 대기하기 - 1000ms보다 더 줄여도 될듯
+				
 				// 시스템 종료
 				System.exit(0);
 		    }
