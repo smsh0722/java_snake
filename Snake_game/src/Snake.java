@@ -88,7 +88,6 @@ public class Snake {
 			double len = Math.pow(snake1.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake1.snakeLocationList.get(i).y - ny, 2);
 			if(len < 144) {
 				isAlive = false;
-				
 			}
 		}
 		
