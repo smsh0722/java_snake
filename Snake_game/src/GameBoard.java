@@ -121,6 +121,9 @@ public class GameBoard extends JFrame{
 			buffG.drawString( "Your Length: " + mySnake.bodylen, 50, 70);
 		}
 		//뱀이 채 생성되지 못하였을때 널포인터예외때문에 조건을 달았으나, 죽은 후에 점수가 사라져버릴 수 있음..
+		if ( mySnake == null ) {
+			buffG.drawString( "Observing..", 50, 70 );
+		}
 	}
 	public void drawFeeds( Graphics g ) {
 		buffG.setColor( Color.CYAN );
