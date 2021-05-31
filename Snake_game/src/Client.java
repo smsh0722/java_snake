@@ -64,7 +64,7 @@ public class Client implements Runnable{
 					break;
 					
 				case "feed"://클라에서 오는 feed 뜻: nickname이 먹이를 먹었으니 새로 생성해라
-					inputLine = format("feed", nickname, 100 + Math.random() * 400, Math.random() * 100 + 400) ;
+					inputLine = format("feed", nickname, 100 + (int)(Math.random()*500), (int)(Math.random()*500) + 100) ;
 					break;
 				case "distribute":
 					break;
