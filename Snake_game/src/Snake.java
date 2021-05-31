@@ -64,13 +64,18 @@ public class Snake {
 	}
 	
 	public void RemoveCollisionFeed(Feed feed) {
-		if(CollisionFeed(feed) == true) {
-			bodylen += 2;
-			feed.feedLocationList.remove(getfeed);
-			if(isAlive = false) {
-				feed.MakeFeedPlus(headPoint.x, headPoint.y);
+		for(int i = 0; i < feed.feedLocationList.size(); i++) {
+			double len = Math.pow(feed.feedLocationList.get(i).x - headPoint.x, 2) + Math.pow(feed.feedLocationList.get(i).y - headPoint.y, 2);
+			if(len < 144) {
+				getfeed = i;
+				bodylen += 2;
+				feed.feedLocationList.remove(getfeed);
+				if(isAlive == false) {
+					feed.MakeFeedPlus(headPoint.x, headPoint.y);
+				}
+				return;
 			}
-		}	
+		}
 	}
 	
 	public void CollisionSnake(Snake snake1) {

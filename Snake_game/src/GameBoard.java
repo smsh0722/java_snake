@@ -97,7 +97,7 @@ public class GameBoard extends JFrame{
 	
 		drawSnake(g); 	// snake 그리기
 		drawScore(g); 	// 점수판
-		// drawFeeds(g); // 먹이 그리기
+		drawFeeds(g); // 먹이 그리기
 		
 		g.drawImage( buffImg, 0, 0, this ); // 화면에 버퍼(buffG)에 그려진 이미지(buffImg)를 그림
 	}
