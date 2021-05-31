@@ -108,9 +108,9 @@ public class GameBoard extends JFrame{
 			if ( snake == mySnake ) buffG.setColor( Color.BLUE);
 			else 					buffG.setColor( Color.red ); 
 			for ( Integer i = 0; i < snake.snakeLocationList.size(); i++ ) {
-				double x = snake.snakeLocationList.get(i).x;
-				double y = snake.snakeLocationList.get(i).y;
-				buffG.fillOval( (int)x, (int)y, 12, 12);
+				double px = snake.snakeLocationList.get(i).x;
+				double py = snake.snakeLocationList.get(i).y;
+				buffG.fillOval( (int)px, (int)py, 12, 12);
 			}
 			buffG.drawString( key, (int)snake.snakeLocationList.get(0).x , (int)snake.snakeLocationList.get(0).y);
 		}
@@ -130,9 +130,9 @@ public class GameBoard extends JFrame{
 		buffG.setColor( Color.CYAN );
 		
 		for ( int i = 0; i < feed.feedLocationList.size(); i++){
-			double x = feed.feedLocationList.get(i).x;
-			double y = feed.feedLocationList.get(i).y;
-			buffG.fillOval( (int)x, (int)y, 12, 12 );
+			double px = feed.feedLocationList.get(i).x;
+			double py = feed.feedLocationList.get(i).y;
+			buffG.fillOval( (int)px, (int)py, 12, 12 );
 		}
 		
 	}
