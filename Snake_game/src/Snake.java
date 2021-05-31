@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 
 
 public class Snake {
@@ -62,42 +64,16 @@ public class Snake {
 				
 			}
 		}
-		for(int i = 0; i < snake2.snakeLocationList.size(); i++) {
-			//1보다 작으면 겹침
-			double len = Math.pow(snake2.snakeLocationList.get(i).x - nx, 2) + Math.pow(snake2.snakeLocationList.get(i).y - ny, 2);
-			if(len < 1) {
-				feed.MakeFeedPlus(nx, ny);
-				isAlive = false;
-			}
-		}
-		/*
-		//자기 몸통에 부딪히면 죽음(head인 경우는 제자리이므로 제외)
-		for(int i = 1; i < snakeLocationList.size(); i++) {
-			//1보다 작으면 겹침
-			double len = Math.pow(snakeLocationList.get(i).x - nx, 2) + Math.pow(snakeLocationList.get(i).y - ny, 2);
-			if(len < 1) {
-				feed.MakeFeedPlus(nx, ny);
-				isAlive = false;
-			}
-		}*/
-		//board 나가면 죽음
-		if(nx < 0 || nx > 700) {
-			isAlive = false;
-		}
-		else if(ny < 0 || ny > 500) {
-			isAlive = false;
-		}
-		//먹이 발견 -> 몸통 추가
-		/*for(int i = 0; i < feed.feedLocationList.size(); i++) {
-			double len = Math.pow(feed.feedLocationList.get(i).x - nx, 2) + Math.pow(feed.feedLocationList.get(i).y - ny, 2);
-			if(len < 1) {
-				snakeLocationList.add(new SnakeLocationPoint(previousX, previousY));
-				feed.feedLocationList.remove(i);
-			}
-		}
-		*/
+		
 	}
-	
+	public void BoardOut() {
+		if(headPoint.x < 0 || headPoint.x > JFrame.MAXIMIZED_HORIZ) {
+			isAlive = false;
+		}
+		else if(headPoint.y < 0 || headPoint.x > JFrame.MAXIMIZED_VERT) {
+			isAlive = false;
+		}
+	}
 	
 	public class SnakeLocationPoint {
 	    double x;
@@ -126,3 +102,4 @@ public class Snake {
 	}
 
 }
+
