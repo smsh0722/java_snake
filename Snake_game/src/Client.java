@@ -77,7 +77,10 @@ public class Client implements Runnable{
 			
 			System.out.println("Client of dead socket Finally escaped the loop!");
 			//관전은 불가능할듯 합니다.....
-			MainClass.connectList.remove(socket);
+			if(nickname!=myGame.nickname) {
+				MainClass.connectList.remove(socket);
+			}//호스트는 죽어도 리무브 안함. (새 유저가 받는 snakes 해시맵은 호스트의 것을 사용하므로 호스트는 죽어도 다른 유저의 입장/죽음을 받아야 됨.)
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
