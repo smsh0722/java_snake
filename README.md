@@ -1,5 +1,5 @@
 # java_snake
-Online Snake Game implemented with Java
+Online Snake Game implemented with *Java*
 
 
 ## Features
