@@ -1,5 +1,5 @@
 # java_snake
-Multiplayer Snake Game
+Multiplayer Snake Game implemented with Java
 
 
 ## Features
@@ -9,7 +9,7 @@ https://user-images.githubusercontent.com/65753502/120166718-da83e980-c237-11eb-
 - Client Mode
 - Mouse Control
 - Collision( Feeds, Snakes )
-- 
+
 ## Realease
 - version 1.0.0
 
