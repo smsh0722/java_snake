@@ -6,7 +6,7 @@ Online Snake Game implemented with *Java*
 https://user-images.githubusercontent.com/65753502/120166718-da83e980-c237-11eb-8d68-46e7018de867.mp4
 
 - Connect as a Host & a Client
-- Connect as a Client Mode
+- Connect as a Client
 - Mouse Control
 - Collision( Feeds, Snakes )
 
