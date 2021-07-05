@@ -18,7 +18,7 @@ public class FeedDistribute implements Runnable {
 			try {
 				Thread.sleep( Delay );// 밥주는 타이밍
 				Delay += 1000;//점점늘어남
-				String inputLine = "distribute/0/"+ Double.toString(100 + Math.random() * 1000) +"/"+ Double.toString(Math.random() * 1000 + 100);
+				String inputLine = "distribute/0/"+ Double.toString(400 + Math.random() * 1500) +"/"+ Double.toString(Math.random() * 1000 + 400);
 				
 				clntIdx = 0;
 				for(Socket clnt: MainClass.connectList) {
