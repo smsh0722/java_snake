@@ -11,7 +11,7 @@ https://user-images.githubusercontent.com/65753502/120166718-da83e980-c237-11eb-
 - Collision( Feeds, Snakes )
 
 ## Installatoin
-- use jar export in eclipse
+- Use jar export in eclipse
 
 ## Realease
 - version 1.0.0
